@@ -1,0 +1,97 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+#ul_message {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    list-style-type: none;
+    margin: 0;
+    background: #fafafa;
+
+}
+
+
+
+.message-self {
+    background: linear-gradient(135deg, #6f86d6, #48c6ef);
+    max-width: 80%;
+    word-wrap: break-word;
+    align-self: flex-end;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: #fff;
+    font-size: 14px !important;
+    display: block; 
+    text-align: right; 
+    float: right; 
+}
+.message-other {
+    background: #e0e0e0;
+    padding: 10px;
+    max-width: 80%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    align-self: flex-start;
+    font-size: 14px !important;
+    display: block; 
+    text-align: left; 
+    float: left; 
+
+}
+
+
+#controls {
+    display: flex;
+    padding: 10px;
+    background: #f0f0f0;
+    border-top: 1px solid #ddd;
+}
+#name, #room, #ip_message {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+#btn_join, #btn_send {
+    padding: 10px 16px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#btn_join:hover, #btn_send:hover {
+    background: #0056b3;
+}
+
+#btn_join {
+    margin-right: 0;
+}
+
+.material-icons{
+    font-size: 16px !important; 
+}
