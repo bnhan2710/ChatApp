@@ -1,6 +1,6 @@
-const chatRoute = require('./chat.route');
+const viewRoute = require('./view.route');
 const apiRoute = require('./apis/index.route')
 module.exports = (app) => {
-    app.use('/v1', chatRoute);
-    app.use('/api/v1',apiRoute)
-}
+    app.use('/v1', viewRoute);
+    app.use('/v1/api',apiRoute)
+}   

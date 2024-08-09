@@ -8,7 +8,6 @@ class AccountService {
     static register = async (data) => {
         try {
             const { username, password, email } = data;
-            console.log(username)
             const existingUser = await Account.findOne({username: username})
             if(existingUser){
                 console.log(existingUser)
@@ -31,6 +30,7 @@ class AccountService {
                 message: 'Register succesfully!!'
             }
         }catch (err) {
+            console.log(err)
             throw new Error(err.message);
         }
     }
