@@ -10,7 +10,7 @@ class AccountService {
             const { username, password, email } = data;
             const existingUser = await Account.findOne({username: username})
             if(existingUser){
-                console.log(existingUser)
+                // console.log(existingUser)
                 return{
                     statusCode:400,
                     message: 'Account already registered!'
@@ -30,7 +30,6 @@ class AccountService {
                 message: 'Register succesfully!!'
             }
         }catch (err) {
-            console.log(err)
             throw new Error(err.message);
         }
     }

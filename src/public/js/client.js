@@ -5,32 +5,37 @@ const btn_join = document.getElementById('btn_join');
 const ip_message = document.getElementById('ip_message');
 const btn_send = document.getElementById('btn_send');
 const ul_message = document.getElementById('ul_message');
-
-let socket = io.connect();
+const myAuthToken = sessionStorage.token;
 let currentUserName = ''; 
 
-socket.on("connect", () => {
-    console.log('Connected to server');
+let socket = io.connect();
+socket.on('connect', () => {
+  socket.emit('authenticate', {token: myAuthToken});
 });
 
+
 btn_join.addEventListener('click', () => {
-    const name = ip_name.value;
     const room = ip_room.value;
-    if (name && room) {
-        currentUserName = name; 
-        socket.emit("join", { name, room });
-        alert(`Join room ${room} successfully !!`)
+    if (room) {
+        socket.emit("join", { token: myAuthToken, room });
+        socket.on("join" , (username) =>{
+            //set current username for client
+            currentUserName = username;
+        })
+        alert(`${currentUserName} join room ${room} successfully !!`)
     } else {
-        alert('Please enter both name and room');
+        alert('Please enter room');
     }
 });
 
 const sendmsg = () => {
     console.log('send message');
     const message = ip_message.value;
+    console.log({currentUserName, message});    
     const obj ={ 
-        name:currentUserName,
-         message 
+        username:currentUserName,
+         message ,
+         room: ip_room.value
         }
     if (message) {
         socket.emit("message",JSON.stringify(obj));
@@ -43,12 +48,12 @@ const sendmsg = () => {
 btn_send.addEventListener('click', sendmsg);
 
 
-socket.on("thread", (data) => {
+socket.on('thread', (data) => {
     const obj = JSON.parse(data)
     const li = document.createElement("li");
     li.innerText = `${obj.message}`;
     
-    if (obj.name === currentUserName) {
+    if (obj.username === currentUserName) {
         li.classList.add('message-self');
     } else {
         li.classList.add('message-other');
