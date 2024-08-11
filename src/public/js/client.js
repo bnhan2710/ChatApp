@@ -5,6 +5,7 @@ const btn_join = document.getElementById('btn_join');
 const ip_message = document.getElementById('ip_message');
 const btn_send = document.getElementById('btn_send');
 const ul_message = document.getElementById('ul_message');
+const btn_logout = document.getElementById('btn_logout');
 const myAuthToken = sessionStorage.token;
 let currentUserName = ''; 
 
@@ -16,20 +17,28 @@ socket.on('connect', () => {
 
 btn_join.addEventListener('click', () => {
     const room = ip_room.value;
+    if(!myAuthToken){
+        alert('You are not logged in, Please login first');
+      return window.location.href = '/v1/auth/';
+    }
     if (room) {
         socket.emit("join", { token: myAuthToken, room });
         socket.on("join" , (username) =>{
             //set current username for client
             currentUserName = username;
         })
-        alert(`${currentUserName} join room ${room} successfully !!`)
+        alert(`${currentUserName} Join room ${room} successfully !!`)
     } else {
         alert('Please enter room');
     }
 });
 
 const sendmsg = () => {
-    console.log('send message');
+    // console.log('send message');
+    if(!myAuthToken){
+        alert('You are not logged in, Please login first');
+      return window.location.href = '/v1/auth/';
+    }
     const message = ip_message.value;
     console.log({currentUserName, message});    
     const obj ={ 
@@ -68,3 +77,15 @@ ip_message.addEventListener('keydown', (e) => {
         sendmsg();
     }
 })
+
+btn_logout.addEventListener('click', () => {
+    if(myAuthToken){
+        sessionStorage.removeItem('token');
+        window.location.href = '/v1/auth/';
+    }
+    else{
+        alert('You are not logged in, Please login first');
+        window.location.href = '/v1/auth/';
+    }
+
+});
