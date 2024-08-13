@@ -5,14 +5,18 @@ const path = require('path');
 require('dotenv').config();
 const socketController = require('./controllers/socket.controller');
 const route = require('./routes/index');
+const { v4: uuidv4 } = require('uuid');
+const { ExpressPeerServer } = require('peer'); 
 
-// Create the Express app
+//Create server
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+const peerServer = ExpressPeerServer(server, {
+    debug: true
+});
 
-
-const port = process.env.PORT 
+app.use('/peerjs', peerServer); 
 
 // Connect to the database
 require('./configs/database.connect')();
@@ -24,11 +28,14 @@ app.use(express.static(path.join(__dirname, './public')));
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
+// Socket controller
 socketController(io);
 
+// Routes
 route(app);
 
-
+// Start the server
+const port = process.env.PORT || 3000;
 server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
