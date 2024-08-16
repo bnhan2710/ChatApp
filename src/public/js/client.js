@@ -7,6 +7,7 @@ const btn_send = document.getElementById('btn_send');
 const ul_message = document.getElementById('ul_message');
 const btn_logout = document.getElementById('btn_logout');
 const myAuthToken = sessionStorage.token;
+const btn_video_call = document.getElementById('btn_video_call')
 let currentUserName = ''; 
 
 let socket = io.connect();
@@ -89,3 +90,15 @@ btn_logout.addEventListener('click', () => {
     }
 
 });
+
+btn_video_call.addEventListener('click', () => {
+    if(myAuthToken){
+        sessionStorage.removeItem('token');
+        window.location.href = '/v1/video-call/';
+        sessionStorage.setItem('token', myAuthToken);
+    }
+    else{
+        alert('You are not logged in, Please login first');
+        window.location.href = '/v1/auth/';
+    }
+})

@@ -10,17 +10,17 @@ html(lang="en")
     #controls
       input(type="text", id="room", placeholder="Room")
       button(id="btn_join") Join
-      //- Logout button
+
       button(id="btn_logout")
         i.material Log out
 
     #chat-container
       ul(id="ul_message")
-
       #controls
         input(type="text", id="ip_message", placeholder="Message")
         button(id="btn_send")
           i.material-icons &#xe163;
-
+    button(id="btn_video_call")
+      i.material-icons &#xe04b;
     script(src="/socket.io/socket.io.js")
     script(src="/js/client.js")

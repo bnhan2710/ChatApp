@@ -124,9 +124,12 @@ button {
 }
 
 #btn_join {
-    margin-right: 0;
+    margin-right: 10px !important;
 }
 
 .material-icons{
     font-size: 16px !important; 
+}
+.btn_video_call{
+    margin: 10px;
 }

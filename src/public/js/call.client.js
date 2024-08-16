@@ -59,7 +59,7 @@ const addVideoStream = (video, stream) => {
 
 
 
-  
+
   video.srcObject = stream;
   video.addEventListener("loadedmetadata", () => {
     video.play();
@@ -109,6 +109,8 @@ inviteButton.addEventListener("click",() => {
   window.location.href
   );
 })
+
+
 
 disconnectBtn.addEventListener("click",() => {
   peer.destroy();
