@@ -1,39 +1,57 @@
-const res = require('express/lib/response');
 const { checkAuthToken } = require('../utils/checkAuthToken');
 
 module.exports = (io) => {
     io.on('connection', (client) => {
         client.auth = false;
+
         client.on('authenticate', async (data) => {
             try {
                 const result = await checkAuthToken(data.token);
                 if (result.statusCode === 200) {
-                    console.log("Authenticated socket ",result.user.username );
+                    console.log("Authenticated socket ", result.user.username);
                     client.auth = true;
                 } else {
-                    console.log("Authentication failed for socket ");
+                    console.log("Authentication failed for socket");
+                    client.disconnect('unauthorized');
                 }
             } catch (error) {
                 console.error('Authentication error:', error);
+                client.disconnect('unauthorized');
             }
         });
 
         setTimeout(() => {
             if (!client.auth) {
-                console.log("Disconnecting socket ");
+                console.log("Disconnecting socket due to lack of authentication");
                 client.disconnect('unauthorized');
             }
         }, 2000);
 
         // Join room chat
         client.on('join', async (data) => {
-            const result = await checkAuthToken(data.token);
-            const username = result.user.username
+            try {
+                const result = await checkAuthToken(data.token);
+                if (client.auth) {
+                    const room = data.room;
+                    const username = result.user.username;
+                    console.log(`${username} joined room: ${room}`);
+                    client.join(room);
+                    client.emit('join', username);
+                } else {
+                    console.log('Client not authenticated');
+                }
+            } catch (error) {
+                console.error('Error joining room:', error);
+            }
+        });
+
+        client.on('join-room', (roomId, userId) => {
             if (client.auth) {
-                const room = data.room;
-                console.log(`${username} joined room: ${room}`);
-                client.join(room);
-                client.emit('join',username)
+                console.log(`Connecting to room id: ${roomId}`);
+                client.join(roomId);
+                setTimeout(() => {
+                    io.to(roomId).emit('user-connected', userId);
+                }, 1000);
             } else {
                 console.log('Client not authenticated');
             }
@@ -42,9 +60,13 @@ module.exports = (io) => {
         // Handle incoming messages
         client.on('message', (data) => {
             if (client.auth) {
-                const obj = JSON.parse(data);
-                const room = obj.room;
-                io.to(room).emit('thread', data);
+                try {
+                    const obj = JSON.parse(data);
+                    const room = obj.room;
+                    io.to(room).emit('thread', data);
+                } catch (error) {
+                    console.error('Error parsing message:', error);
+                }
             } else {
                 console.log('Client not authenticated');
             }

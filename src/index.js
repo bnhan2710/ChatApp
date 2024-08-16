@@ -5,7 +5,6 @@ const path = require('path');
 require('dotenv').config();
 const socketController = require('./controllers/socket.controller');
 const route = require('./routes/index');
-const { v4: uuidv4 } = require('uuid');
 const { ExpressPeerServer } = require('peer'); 
 
 //Create server

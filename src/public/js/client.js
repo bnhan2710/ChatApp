@@ -13,7 +13,7 @@ let socket = io.connect();
 socket.on('connect', () => {
   socket.emit('authenticate', {token: myAuthToken});
 });
-
+ 
 
 btn_join.addEventListener('click', () => {
     const room = ip_room.value;

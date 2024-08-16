@@ -27,7 +27,7 @@ class AccountService {
             const user = await newAccount.save()
             return{
                 statusCode:200,
-                message: 'Register succesfully!!'
+                message: 'Register successfully!!'
             }
         }catch (err) {
             throw new Error(err.message);
