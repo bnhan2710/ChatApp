@@ -8,7 +8,7 @@ module.exports = (io) => {
             try {
                 const result = await checkAuthToken(data.token);
                 if (result.statusCode === 200) {
-                    console.log("Authenticated socket ", result.user.username);
+                    console.log("Authenticated socket", result.user.username);
                     client.auth = true;
                 } else {
                     console.log("Authentication failed for socket");
@@ -44,7 +44,7 @@ module.exports = (io) => {
                 console.error('Error joining room:', error);
             }
         });
-
+        // Join video - call 
         client.on('join-room', (roomId, userId) => {
             if (client.auth) {
                 console.log(`Connecting to room id: ${roomId}`);

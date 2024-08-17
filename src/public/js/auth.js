@@ -22,13 +22,13 @@ btn_login.addEventListener('click', (e) => {
   })
     .then(res => res.json())
     .then(data => {
-      console.log('Data:::',data)
+      // console.log('Data:::',data)
       if (data.statusCode === 200) {
             const accessToken = data.message.accessToken;
             sessionStorage.setItem('token', accessToken);
           window.location.href = '/v1/chat';
       }else{
-          console.log(data.message);
+          // console.log(data.message);
           alert('Invalid username or password');
       }
     })
