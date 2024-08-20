@@ -21,12 +21,6 @@ const accountSchema = mongoose.Schema({
         maxlength: 50,
         minlength: 10,
         unique: true
-    },
-
-    fullName:{
-        type: String,
-        maxlength: 50,
-        minlength: 10,
     }
 } , { 
     timestamps: true ,
